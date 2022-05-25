@@ -5,7 +5,7 @@
 #    '-._.(;;;)._.-'                                                    #
 #    .-'  ,`"`,  '-.                                                    #
 #   (__.-'/   \'-.__)   BY: Rosie (https://github.com/BlankRose)        #
-#       //\   /         Last Updated: Tue May 24 23:58:14 CEST 2022     #
+#       //\   /         Last Updated: Wed May 25 21:11:20 CEST 2022     #
 #      ||  '-'                                                          #
 # ********************************************************************* #
 
@@ -23,9 +23,13 @@ DANGER = -fsanitize=address
 #       SOURCES       #
 # =-----------------= #
 
-ENGINE = main.cpp
+FUNCTIONS = main.cpp
 
-ALL = $(ENGINE)
+CLASSES_FOLDER = classes/
+CLASSES_FILES = Player.cpp Unlimited.cpp
+CLASSES = $(addprefix $(CLASSES_FOLDER), $(CLASSES_FILES))
+
+ALL = $(FUNCTIONS) $(CLASSES)
 SRC = $(addprefix src/, $(ALL))
 OBJ = $(SRC:.cpp=.o)
 
@@ -44,7 +48,7 @@ $(NAME): $(OBJ)
 clean:
 	@rm -f $(OBJ)
 
-fclean:
+fclean: clean
 	@rm -f $(NAME)
 
 re: fclean all
