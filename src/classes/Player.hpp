@@ -5,20 +5,19 @@
 /*    '-._.(;;;)._.-'                                                    */
 /*    .-'  ,`"`,  '-.                                                    */
 /*   (__.-'/   \'-.__)   BY: Rosie (https://github.com/BlankRose)        */
-/*       //\   /         Last Updated: Wed May 25 19:34:34 CEST 2022     */
+/*       //\   /         Last Updated: Wed Jun  1 22:27:48 CEST 2022     */
 /*      ||  '-'                                                          */
 /* ********************************************************************* */
 
 #ifndef __PLAYER_HPP__
 # define __PLAYER_HPP__
 
-#include "classes.h"
-using namespace std;
+#include "classes.hpp"
 
 class Player
 {
 	private:
-		string		name;
+		std::string	name;
 		int			health;
 		int			mana;
 		int			attack;

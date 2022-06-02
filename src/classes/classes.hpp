@@ -1,19 +1,20 @@
 /* ********************************************************************* */
 /*          .-.                                                          */
 /*    __   /   \   __                                                    */
-/*   (  `'.\   /.'`  )   Tech-sland - classes.h                          */
+/*   (  `'.\   /.'`  )   Tech-sland - classes.hpp                        */
 /*    '-._.(;;;)._.-'                                                    */
 /*    .-'  ,`"`,  '-.                                                    */
 /*   (__.-'/   \'-.__)   BY: Rosie (https://github.com/BlankRose)        */
-/*       //\   /         Last Updated: Wed May 25 19:35:12 CEST 2022     */
+/*       //\   /         Last Updated: Thu Jun  2 14:14:20 CEST 2022     */
 /*      ||  '-'                                                          */
 /* ********************************************************************* */
 
-#ifndef __CLASSES_H__
-# define __CLASSES_H__
+#ifndef __CLASSES_HPP__
+# define __CLASSES_HPP__
 
 #include <string>
 #include <iostream>
+#include <exception>
 
 #include "Unlimited.hpp"
 #include "Player.hpp"

@@ -5,7 +5,7 @@
 #    '-._.(;;;)._.-'                                                    #
 #    .-'  ,`"`,  '-.                                                    #
 #   (__.-'/   \'-.__)   BY: Rosie (https://github.com/BlankRose)        #
-#       //\   /         Last Updated: Wed May 25 21:11:20 CEST 2022     #
+#       //\   /         Last Updated: Thu Jun  2 16:57:45 CEST 2022     #
 #      ||  '-'                                                          #
 # ********************************************************************* #
 
@@ -16,7 +16,7 @@
 NAME = techsland
 
 COMPILER = c++
-FLAGS = -Wall -Werror -Wextra -g3
+FLAGS = -Wall -Werror -Wextra -g3 -std=c++11
 DANGER = -fsanitize=address
 
 # =-----------------= #
@@ -44,6 +44,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@$(COMPILER) $(DANGER) -o $(NAME) $(OBJ)
+	@printf "\033[32mThe programm $(NAME) has been compiled successfully!\033[0m\n"
 
 clean:
 	@rm -f $(OBJ)
@@ -53,4 +54,8 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+test: all
+	@./$(NAME)
+	@make fclean
+
+.PHONY: all clean fclean re test
