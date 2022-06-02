@@ -13,6 +13,7 @@
 # define __CLASSES_HPP__
 
 #include <string>
+#include <cstring>
 #include <iostream>
 #include <exception>
 
