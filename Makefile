@@ -5,7 +5,7 @@
 #    '-._.(;;;)._.-'                                                    #
 #    .-'  ,`"`,  '-.                                                    #
 #   (__.-'/   \'-.__)   BY: Rosie (https://github.com/BlankRose)        #
-#       //\   /         Last Updated: Thu Jun  2 16:57:45 CEST 2022     #
+#       //\   /         Last Updated: Sun Jun  5 18:03:48 CEST 2022     #
 #      ||  '-'                                                          #
 # ********************************************************************* #
 
@@ -18,10 +18,12 @@ NAME = techsland
 
 # Compilation options
 COMPILER = c++
-LIBRARIES = -lglfw3 -lopengl32 -lgdi32
 FLAGS = -Wall -Werror -Wextra -g3 -std=c++11
 ifneq ($(OS), Windows_NT)
 	DANGER = -fsanitize=address
+	LIBRARIES = -I include -lglfw -L "/Users/$USER/.brew/opt/glfw/lib/"
+else
+	LIBRARIES = -lglfw3 -lopengl32 -lgdi32
 endif
 
 # Success message to be displayed when compilation is complete
@@ -35,13 +37,15 @@ EXTERNAL_FOLDER = MLX42/
 EXTERNAL_FILES = libmlx42.a
 EXTERNAL = $(addprefix $(EXTERNAL_FOLDER), $(EXTERNAL_FILES))
 
-FUNCTIONS = main.cpp
+GRAPHICS_FOLDER = graphics/
+GRAPHICS_FILES = windows.cpp
+GRAPHICS = $(addprefix $(GRAPHICS_FOLDER), $(GRAPHICS_FILES))
 
 CLASSES_FOLDER = classes/
-CLASSES_FILES = Player.cpp Unlimited.cpp
+CLASSES_FILES = Player.cpp Unlimited.cpp Map.cpp
 CLASSES = $(addprefix $(CLASSES_FOLDER), $(CLASSES_FILES))
 
-ALL = $(FUNCTIONS) $(CLASSES)
+ALL = main.cpp $(CLASSES) $(GRAPHICS)
 SRC = $(addprefix src/, $(ALL))
 OBJ = $(SRC:.cpp=.o)
 
@@ -54,7 +58,7 @@ all: $(NAME)
 
 # Compile the sources into object files
 .cpp.o:
-	@$(COMPILER) $(LIBRARIES) $(FLAGS) -o $@ -c $<
+	@$(COMPILER) $(FLAGS) -o $@ -c $<
 
 # Compile the dependencies using their Makefiles
 dependency:
@@ -62,7 +66,7 @@ dependency:
 
 # Compile the objects and dependencies into an executable
 $(NAME): dependency $(OBJ)
-	@$(COMPILER) $(DANGER) -o $(NAME) $(OBJ) $(EXTERNAL)
+	@$(COMPILER) $(LIBRARIES) $(DANGER) -o $(NAME) $(OBJ) $(EXTERNAL) 
 ifneq ($(OS), Windows_NT)
 	@printf "\033[32m$(SUCCESS_MSG)\033[0m\n"
 else

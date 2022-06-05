@@ -5,22 +5,25 @@
 /*    '-._.(;;;)._.-'                                                    */
 /*    .-'  ,`"`,  '-.                                                    */
 /*   (__.-'/   \'-.__)   BY: Rosie (https://github.com/BlankRose)        */
-/*       //\   /         Last Updated: Thu Jun  2 18:18:41 CEST 2022     */
+/*       //\   /         Last Updated: Sun Jun  5 15:34:13 CEST 2022     */
 /*      ||  '-'                                                          */
 /* ********************************************************************* */
 
 #ifndef __UNLIMITED_HPP__
 # define __UNLIMITED_HPP__
 
-#include "classes.hpp"
+#include <string>
+#include <exception>
+#include <iostream>
 
-#define BASE_BINARY "01"
-#define BASE_OCTAL "01234567"
 #define BASE_DECIMAL "0123456789"
-#define BASE_HEXA_UP "0123456789ABCDEF"
-#define BASE_HEXA_LOW "0123456789abcdef"
-#define BASE_HEXA_BOTH "0123456789abcdefABCDEF"
 
+/* UNLIMITED CLASS:
+ * 
+ * A class to implement large and potentially infinitely large numbers even
+ * bigger than DOUBLE could allow while limiting the risk of precision loss
+ * at a minimum by using STRINGS to store value and precision seperatly!
+ */
 class Unlimited
 {
 	private:

@@ -5,7 +5,7 @@
 /*    '-._.(;;;)._.-'                                                    */
 /*    .-'  ,`"`,  '-.                                                    */
 /*   (__.-'/   \'-.__)   BY: Rosie (https://github.com/BlankRose)        */
-/*       //\   /         Last Updated: Thu Jun  2 15:54:41 CEST 2022     */
+/*       //\   /         Last Updated: Fri Jun  3 13:04:28 CEST 2022     */
 /*      ||  '-'                                                          */
 /* ********************************************************************* */
 
@@ -13,5 +13,6 @@
 # define __TECHSLAND_HPP__
 
 #include "classes/classes.hpp"
+#include "graphics/graphics.hpp"
 
 #endif
