@@ -5,7 +5,7 @@
 #    '-._.(;;;)._.-'                                                    #
 #    .-'  ,`"`,  '-.                                                    #
 #   (__.-'/   \'-.__)   BY: Rosie (https://github.com/BlankRose)        #
-#       //\   /         Last Updated: Sun Jun  5 18:03:48 CEST 2022     #
+#       //\   /         Last Updated: Sat Jun 11 17:56:09 CEST 2022     #
 #      ||  '-'                                                          #
 # ********************************************************************* #
 
@@ -21,7 +21,8 @@ COMPILER = c++
 FLAGS = -Wall -Werror -Wextra -g3 -std=c++11
 ifneq ($(OS), Windows_NT)
 	DANGER = -fsanitize=address
-	LIBRARIES = -I include -lglfw -L "/Users/$USER/.brew/opt/glfw/lib/"
+	LIBRARIES = -I include -lglfw
+#-L "/Users/$USER/.brew/opt/glfw/lib/"
 else
 	LIBRARIES = -lglfw3 -lopengl32 -lgdi32
 endif
@@ -33,16 +34,22 @@ SUCCESS_MSG = The programm $(NAME) has been compiled successfully!
 #       SOURCES       #
 # =-----------------= #
 
-EXTERNAL_FOLDER = MLX42/
-EXTERNAL_FILES = libmlx42.a
-EXTERNAL = $(addprefix $(EXTERNAL_FOLDER), $(EXTERNAL_FILES))
+MLX_FOLDER = MLX42/
+MLX_FILE = libmlx42.a
+MLX = $(addprefix $(MLX_FOLDER), $(MLX_FILE))
+
+LIBFT_FOLDER = libft/
+LIBFT_FILE = libft.a
+LIBFT = $(addprefix $(LIBFT_FOLDER), $(LIBFT_FILE))
+
+EXT_FILES = $(LIBFT) $(MLX)
 
 GRAPHICS_FOLDER = graphics/
-GRAPHICS_FILES = windows.cpp
+GRAPHICS_FILES = 
 GRAPHICS = $(addprefix $(GRAPHICS_FOLDER), $(GRAPHICS_FILES))
 
 CLASSES_FOLDER = classes/
-CLASSES_FILES = Player.cpp Unlimited.cpp Map.cpp
+CLASSES_FILES = 
 CLASSES = $(addprefix $(CLASSES_FOLDER), $(CLASSES_FILES))
 
 ALL = main.cpp $(CLASSES) $(GRAPHICS)
@@ -62,11 +69,12 @@ all: $(NAME)
 
 # Compile the dependencies using their Makefiles
 dependency:
-	@make -sC $(EXTERNAL_FOLDER)
+	@make -sC $(LIBFT_FOLDER)
+	@make -sC $(MLX_FOLDER)
 
 # Compile the objects and dependencies into an executable
 $(NAME): dependency $(OBJ)
-	@$(COMPILER) $(LIBRARIES) $(DANGER) -o $(NAME) $(OBJ) $(EXTERNAL) 
+	@$(COMPILER) $(LIBRARIES) $(DANGER) -o $(NAME) $(OBJ) $(EXT_FILES) 
 ifneq ($(OS), Windows_NT)
 	@printf "\033[32m$(SUCCESS_MSG)\033[0m\n"
 else
@@ -91,7 +99,7 @@ endif
 
 # Cleans the External libs folder using their Makefiles
 libclean:
-	@make fclean -sC $(EXTERNAL_FOLDER)
+	@make fclean -sC $(EXT_FOLDER)
 
 # Clears and recompile the whole project
 re: fclean all
