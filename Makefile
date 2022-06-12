@@ -5,7 +5,7 @@
 #    '-._.(;;;)._.-'                                                    #
 #    .-'  ,`"`,  '-.                                                    #
 #   (__.-'/   \'-.__)   BY: Rosie (https://github.com/BlankRose)        #
-#       //\   /         Last Updated: Sat Jun 11 17:56:09 CEST 2022     #
+#       //\   /         Last Updated: Sun Jun 12 17:02:39 CEST 2022     #
 #      ||  '-'                                                          #
 # ********************************************************************* #
 
@@ -49,10 +49,10 @@ GRAPHICS_FILES =
 GRAPHICS = $(addprefix $(GRAPHICS_FOLDER), $(GRAPHICS_FILES))
 
 CLASSES_FOLDER = classes/
-CLASSES_FILES = 
+CLASSES_FILES = Entity.cpp Player.cpp
 CLASSES = $(addprefix $(CLASSES_FOLDER), $(CLASSES_FILES))
 
-ALL = main.cpp $(CLASSES) $(GRAPHICS)
+ALL = main.cpp framework.cpp $(CLASSES) $(GRAPHICS)
 SRC = $(addprefix src/, $(ALL))
 OBJ = $(SRC:.cpp=.o)
 
