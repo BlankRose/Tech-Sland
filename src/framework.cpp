@@ -5,7 +5,7 @@
 /*    '-._.(;;;)._.-'                                                    */
 /*    .-'  ,`"`,  '-.                                                    */
 /*   (__.-'/   \'-.__)   BY: Rosie (https://github.com/BlankRose)        */
-/*       //\   /         Last Updated: Sun Jun 12 20:40:05 CEST 2022     */
+/*       //\   /         Last Updated: Thu Jun 16 15:34:08 CEST 2022     */
 /*      ||  '-'                                                          */
 /* ********************************************************************* */
 
@@ -28,13 +28,13 @@ static void		ts_display_debug(t_data *data)
 
 	/* Prints player's position */
 	tmp.push_back(mlx_put_string(mlx, "Position:", 10, 10));
-	tmp.push_back(mlx_put_string(mlx, ft_itoa(player->getX()), 120, 10));
-	tmp.push_back(mlx_put_string(mlx, ft_itoa(player->getY()), 160, 10));
+	tmp.push_back(mlx_put_string(mlx, std::to_string(player->getX()).c_str(), 120, 10));
+	tmp.push_back(mlx_put_string(mlx, std::to_string(player->getY()).c_str(), 160, 10));
 
 	/* Prints frames details */
 	tmp.push_back(mlx_put_string(mlx, "Frames:", 10, 30));
-	tmp.push_back(mlx_put_string(mlx, ft_itoa_long(ft_elapsed(frame->lastFrame)), 120, 30));
-	tmp.push_back(mlx_put_string(mlx, ft_itoa(frame->count), 160, 30));
+	tmp.push_back(mlx_put_string(mlx, std::to_string(ft_elapsed(frame->lastFrame)).c_str(), 120, 30));
+	tmp.push_back(mlx_put_string(mlx, std::to_string(frame->count).c_str(), 160, 30));
 }
 
 static void		ts_update_frame(t_frame *display, mlx_image_t *newFrame)
@@ -56,7 +56,7 @@ static void		ts_update_frame(t_frame *display, mlx_image_t *newFrame)
 static void		ts_new_frame(void *param)
 {
 	/* Getting some references */
-	t_data		*data = (t_data*) param;
+	t_data		*data = static_cast<t_data*> (param);
 	mlx_t		*mlx = data->frame->mlx;
 
 	/* Creates a new frame */
@@ -67,7 +67,7 @@ static void		ts_new_frame(void *param)
 		for (int y = 0; y < mlx->height; y++) {
 			mlx_put_pixel(newFrame, x, y, 0x000050FF);
 	}}
-	mlx_image_to_window(mlx, newFrame, 0, 0) < 0;
+	mlx_image_to_window(mlx, newFrame, 0, 0);
 
 	/* Triggers debug messages and update frame struct */
 	if (data->frame->flags & 1) ts_display_debug(data);
