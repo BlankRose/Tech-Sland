@@ -18,7 +18,8 @@ static t_data	*ts_init_all(void)
 
 	/* Initialize MLX */
 	data->frame = new t_frame;
-	data->frame->mlx = mlx_init(WIDTH_DEFAULT, HEIGHT_DEFAULT, "Tech-Sland", false);
+	data->frame->mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, "Tech-Sland", false);
+	data->frame->font = mlx_load_png("data/assets/font.png");
 
 	/* Initialize Frame */
 	data->frame->lastFrame = new Time(Time::SYSTEM);
@@ -34,6 +35,10 @@ static t_data	*ts_init_all(void)
 
 static int		ts_clear_all(t_data *data)
 {
+	mlx_delete_texture(data->frame->font);
+	mlx_terminate(data->frame->mlx);
+
+	delete	data->frame->lastFrame;
 	delete	data->player;
 	delete	data->frame;
 	delete	data;

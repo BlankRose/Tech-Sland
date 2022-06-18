@@ -5,7 +5,7 @@
 /*    '-._.(;;;)._.-'                                                    */
 /*    .-'  ,`"`,  '-.                                                    */
 /*   (__.-'/   \'-.__)   BY: Rosie (https://github.com/BlankRose)        */
-/*       //\   /         Last Updated: Sun Jun 12 20:03:42 CEST 2022     */
+/*       //\   /         Last Updated: Sat Jun 18 23:48:42 CEST 2022     */
 /*      ||  '-'                                                          */
 /* ********************************************************************* */
 
@@ -15,7 +15,6 @@
 #include "../MLX42/include/MLX42/MLX42.h"
 #include "classes/classes.h"
 
-#include <ctime>
 #include <algorithm>
 #include <vector>
 
@@ -23,6 +22,7 @@ typedef unsigned char	t_byte;
 
 typedef struct s_framework {
 	mlx_t			*mlx;
+	mlx_texture_t	*font;
 	mlx_image_t		*frame;
 	Time			*lastFrame;
 	size_t			count;
@@ -34,9 +34,17 @@ typedef struct s_data {
 	Player		*player;
 }	t_data;
 
-#define WIDTH_DEFAULT 1366
-#define HEIGHT_DEFAULT 768
+#define WINDOW_WIDTH 1366
+#define WINDOW_HEIGHT 768
 
-void	ts_framework(t_data *data);
+#define FONT_WIDTH 10
+#define FONT_HEIGHT 20
+
+void	ts_framework(t_data*);
+
+int	ts_getPixel(const mlx_texture_t *texture, int x, int y);
+void	ts_draw(mlx_image_t *frame, const mlx_texture_t *pack, int x, int y, int dx, int dy, int w, int h);
+void	ts_write(mlx_image_t *frame, const mlx_texture_t *font, const std::string &string, int x, int y);
+void	ts_write(mlx_image_t *frame, const mlx_texture_t *font, const char *string, int x, int y);
 
 #endif

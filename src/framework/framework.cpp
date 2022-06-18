@@ -5,42 +5,29 @@
 /*    '-._.(;;;)._.-'                                                    */
 /*    .-'  ,`"`,  '-.                                                    */
 /*   (__.-'/   \'-.__)   BY: Rosie (https://github.com/BlankRose)        */
-/*       //\   /         Last Updated: Thu Jun 16 15:34:08 CEST 2022     */
+/*       //\   /         Last Updated: Sun Jun 19 00:02:39 CEST 2022     */
 /*      ||  '-'                                                          */
 /* ********************************************************************* */
 
 #include "../header.h"
 
-static void		ts_display_debug(t_data *data)
+static void		ts_display_debug(mlx_image_t *img, t_data *data)
 {
 	/* Getting some references */
-	static std::vector<mlx_image_t*>	tmp;
-	t_frame								*frame = data->frame;
-	Player								*player = data->player;
-	mlx_t								*mlx = frame->mlx;
-
-	/* Clear previous TMP */
-	std::vector<mlx_image_t*>::iterator	it = tmp.begin();
-	while (!tmp.empty()) {
-		mlx_delete_image(frame->mlx, *it);
-		it = tmp.erase(it);
-	}
+	t_frame			*frame = data->frame;
+	mlx_texture_t	*font = frame->font;
+	Player			*player = data->player;
 
 	/* Prints player's position */
-	tmp.push_back(mlx_put_string(mlx, "Position:", 10, 10));
-	tmp.push_back(mlx_put_string(mlx, std::to_string(player->getX()).c_str(), 120, 10));
-	tmp.push_back(mlx_put_string(mlx, std::to_string(player->getY()).c_str(), 160, 10));
+	ts_write(img, font, "Position:", 10, 10);
+	ts_write(img, font, std::to_string(player->getX()), 120, 10);
+	ts_write(img, font, std::to_string(player->getY()), 160, 10);
 
 	/* Prints frames details */
-	tmp.push_back(mlx_put_string(mlx, "Frames:", 10, 30));
+	ts_write(img, font, "Frames:", 10, 30);
 	long FrameSecond = static_cast<long> (1 / frame->lastFrame->hasElapsed(Time::SYSTEM).totalSec());
-	tmp.push_back(mlx_put_string(mlx, std::to_string(FrameSecond).c_str(), 120, 30));
-	tmp.push_back(mlx_put_string(mlx, std::to_string(frame->count).c_str(), 160, 30));
-
-	/* Puts back Frames at perfect depth */
-	std::vector<mlx_image_t*>::iterator ot = tmp.begin();
-	for (; ot != tmp.end(); ot++)
-		mlx_set_instance_depth((*ot)->instances, 1);
+	ts_write(img, font, std::to_string(FrameSecond), 120, 30);
+	ts_write(img, font, std::to_string(frame->count), 160, 30);
 }
 
 static void		ts_update_frame(t_frame *display, mlx_image_t *newFrame)
@@ -68,16 +55,18 @@ static void		ts_new_frame(void *param)
 	/* Creates a new frame */
 	mlx_image_t	*newFrame = mlx_new_image(mlx, mlx->width, mlx->height);
 
-	/* Draw new frame and displays it */
+	/* Draw the new frame */
 	for (int x = 0; x < mlx->width; x++) {
 		for (int y = 0; y < mlx->height; y++) {
 			mlx_put_pixel(newFrame, x, y, 0x000050FF);
 	}}
+
+	/* Displays the image */
 	mlx_image_to_window(mlx, newFrame, 0, 0);
 	mlx_set_instance_depth(newFrame->instances, 0);
 
 	/* Triggers debug messages and update frame struct */
-	if (data->frame->flags & 1) ts_display_debug(data);
+	if (data->frame->flags & 1) ts_display_debug(newFrame, data);
 	ts_update_frame(data->frame, newFrame);
 }
 
@@ -139,5 +128,4 @@ void		ts_framework(t_data *data)
 	mlx_key_hook(mlx, ts_key_handler, data);
 	mlx_loop_hook(mlx, ts_new_frame, data);
 	mlx_loop(mlx);
-	mlx_terminate(mlx);
 }

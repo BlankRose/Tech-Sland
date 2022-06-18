@@ -42,7 +42,7 @@ MLX_FILE = libmlx42.a
 MLX = $(addprefix $(MLX_FOLDER), $(MLX_FILE))
 
 GRAPHICS_FOLDER = framework/
-GRAPHICS_FILES = framework.cpp
+GRAPHICS_FILES = framework.cpp draw.cpp
 GRAPHICS = $(addprefix $(GRAPHICS_FOLDER), $(GRAPHICS_FILES))
 
 CLASSES_FOLDER = classes/
