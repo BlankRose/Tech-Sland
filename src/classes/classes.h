@@ -14,5 +14,6 @@
 
 #include "../header.h"
 #include "Player.hpp"
+#include "Time.hpp"
 
 #endif

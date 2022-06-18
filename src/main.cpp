@@ -19,13 +19,15 @@ static t_data	*ts_init_all(void)
 	/* Initialize MLX */
 	data->frame = new t_frame;
 	data->frame->mlx = mlx_init(WIDTH_DEFAULT, HEIGHT_DEFAULT, "Tech-Sland", false);
-	gettimeofday(&data->frame->lastFrame, 0);
+
+	/* Initialize Frame */
+	data->frame->lastFrame = new Time(Time::SYSTEM);
 	data->frame->frame = nullptr;
 	data->frame->flags = 0x0;
 	data->frame->count = 0;
 
 	/* Initialize Player */
-	data->player = new Player("Rosie");
+	data->player = new Player("Test");
 
 	return (data);
 }

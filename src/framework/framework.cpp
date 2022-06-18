@@ -9,7 +9,7 @@
 /*      ||  '-'                                                          */
 /* ********************************************************************* */
 
-#include "header.h"
+#include "../header.h"
 
 static void		ts_display_debug(t_data *data)
 {
@@ -33,8 +33,14 @@ static void		ts_display_debug(t_data *data)
 
 	/* Prints frames details */
 	tmp.push_back(mlx_put_string(mlx, "Frames:", 10, 30));
-	tmp.push_back(mlx_put_string(mlx, std::to_string(ft_elapsed(frame->lastFrame)).c_str(), 120, 30));
+	long FrameSecond = static_cast<long> (1 / frame->lastFrame->hasElapsed(Time::SYSTEM).totalSec());
+	tmp.push_back(mlx_put_string(mlx, std::to_string(FrameSecond).c_str(), 120, 30));
 	tmp.push_back(mlx_put_string(mlx, std::to_string(frame->count).c_str(), 160, 30));
+
+	/* Puts back Frames at perfect depth */
+	std::vector<mlx_image_t*>::iterator ot = tmp.begin();
+	for (; ot != tmp.end(); ot++)
+		mlx_set_instance_depth((*ot)->instances, 1);
 }
 
 static void		ts_update_frame(t_frame *display, mlx_image_t *newFrame)
@@ -50,7 +56,7 @@ static void		ts_update_frame(t_frame *display, mlx_image_t *newFrame)
 	display->frame = newFrame;
 
 	/* Catch new timestamp */
-	gettimeofday(&display->lastFrame, 0);
+	display->lastFrame->setTimeNow();
 }
 
 static void		ts_new_frame(void *param)
@@ -68,6 +74,7 @@ static void		ts_new_frame(void *param)
 			mlx_put_pixel(newFrame, x, y, 0x000050FF);
 	}}
 	mlx_image_to_window(mlx, newFrame, 0, 0);
+	mlx_set_instance_depth(newFrame->instances, 0);
 
 	/* Triggers debug messages and update frame struct */
 	if (data->frame->flags & 1) ts_display_debug(data);

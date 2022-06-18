@@ -59,14 +59,6 @@ class Entity
 
 		//////////// GET & SET /////////////
 
-		std::string		getName(void);
-		size_t			getID(void);
-		Direction		getDir(void);
-		float			getDX(void);
-		float			getDY(void);
-		int				getX(void);
-		int				getY(void);
-
 		std::string		getName(void) const;
 		size_t			getID(void) const;
 		Direction		getDir(void) const;

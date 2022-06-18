@@ -59,22 +59,14 @@ Entity		&Entity::operator=(const Entity &p)
 /*                                                        */
 /* ****************************************************** */
 
-std::string		Entity::getName(void) {return this->name;}
 std::string		Entity::getName(void) const {return this->name;}
-
-size_t			Entity::getID(void) {return this->id;}
 size_t			Entity::getID(void) const {return this->id;}
 
-Direction		Entity::getDir(void) {return this->dir;}
 Direction		Entity::getDir(void) const {return this->dir;}
 
-float			Entity::getDX(void) {return this->dx;}
-float			Entity::getDY(void) {return this->dy;}
 float			Entity::getDX(void) const {return this->dx;}
 float			Entity::getDY(void) const {return this->dy;}
 
-int				Entity::getX(void) {return this->x;}
-int				Entity::getY(void) {return this->y;}
 int				Entity::getX(void) const {return this->x;}
 int				Entity::getY(void) const {return this->y;}
 

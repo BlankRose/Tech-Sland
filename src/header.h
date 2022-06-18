@@ -13,23 +13,20 @@
 # define __HEADER_HPP__
 
 #include "../MLX42/include/MLX42/MLX42.h"
-#include "../libft/libft.h"
 #include "classes/classes.h"
 
 #include <ctime>
-#include <sys/time.h>
 #include <algorithm>
 #include <vector>
 
 typedef unsigned char	t_byte;
-typedef struct timeval	t_timeval;
 
 typedef struct s_framework {
-	mlx_t						*mlx;
-	mlx_image_t					*frame;
-	t_timeval					lastFrame;
-	size_t						count;
-	t_byte						flags;
+	mlx_t			*mlx;
+	mlx_image_t		*frame;
+	Time			*lastFrame;
+	size_t			count;
+	t_byte			flags;
 }	t_frame;
 
 typedef struct s_data {
