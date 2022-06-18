@@ -5,7 +5,7 @@
 /*    '-._.(;;;)._.-'                                                    */
 /*    .-'  ,`"`,  '-.                                                    */
 /*   (__.-'/   \'-.__)   BY: Rosie (https://github.com/BlankRose)        */
-/*       //\   /         Last Updated: Sat Jun 18 23:48:42 CEST 2022     */
+/*       //\   /         Last Updated: Sun Jun 19 00:08:12 CEST 2022     */
 /*      ||  '-'                                                          */
 /* ********************************************************************* */
 
@@ -23,8 +23,8 @@ typedef unsigned char	t_byte;
 typedef struct s_framework {
 	mlx_t			*mlx;
 	mlx_texture_t	*font;
-	mlx_image_t		*frame;
-	Time			*lastFrame;
+	mlx_image_t		**frames;
+	Time			*delay;
 	size_t			count;
 	t_byte			flags;
 }	t_frame;

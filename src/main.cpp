@@ -5,7 +5,7 @@
 /*    '-._.(;;;)._.-'                                                    */
 /*    .-'  ,`"`,  '-.                                                    */
 /*   (__.-'/   \'-.__)   BY: Rosie (https://github.com/BlankRose)        */
-/*       //\   /         Last Updated: Thu Jun 16 14:04:20 CEST 2022     */
+/*       //\   /         Last Updated: Sun Jun 19 00:12:03 CEST 2022     */
 /*      ||  '-'                                                          */
 /* ********************************************************************* */
 
@@ -21,9 +21,11 @@ static t_data	*ts_init_all(void)
 	data->frame->mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, "Tech-Sland", false);
 	data->frame->font = mlx_load_png("data/assets/font.png");
 
-	/* Initialize Frame */
-	data->frame->lastFrame = new Time(Time::SYSTEM);
-	data->frame->frame = nullptr;
+	/* Initialize Frames */
+	data->frame->delay = new Time(Time::SYSTEM);
+	data->frame->frames = new mlx_image_t*[2];
+	data->frame->frames[0] = nullptr;
+	data->frame->frames[1] = nullptr;
 	data->frame->flags = 0x0;
 	data->frame->count = 0;
 
@@ -38,12 +40,13 @@ static int		ts_clear_all(t_data *data)
 	mlx_delete_texture(data->frame->font);
 	mlx_terminate(data->frame->mlx);
 
-	delete	data->frame->lastFrame;
-	delete	data->player;
-	delete	data->frame;
-	delete	data;
+	delete[]	data->frame->frames;
+	delete		data->frame->delay;
+	delete		data->player;
+	delete		data->frame;
+	delete		data;
 
-	return	0;
+	return 0;
 }
 
 int		main(void)
