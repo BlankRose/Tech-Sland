@@ -1,59 +1,50 @@
 # ********************************************************************* #
 #          .-.                                                          #
 #    __   /   \   __                                                    #
-#   (  `'.\   /.'`  )   Tech-sland - Makefile                           #
+#   (  `'.\   /.'`  )   TechSland - Makefile                            #
 #    '-._.(;;;)._.-'                                                    #
 #    .-'  ,`"`,  '-.                                                    #
 #   (__.-'/   \'-.__)   BY: Rosie (https://github.com/BlankRose)        #
-#       //\   /         Last Updated: Sun Jun 12 18:29:56 CEST 2022     #
+#       //\   /         Last Updated: Sat Jul 16 20:29:23 CEST 2022     #
 #      ||  '-'                                                          #
 # ********************************************************************* #
+
 
 #==--------------------------------------==#
 # *                                      * #
 #             GLOBAL SETTINGS              #
 # *                                      * #
 #==--------------------------------------==#
-
-# Executable's name
-NAME = techsland
+ 
+# Executable specialities
+NAME = TechSland
+LANG = cpp
+DEFINES = 
+TEST_ARGS = 
 
 # Compilation options
-COMPILER = c++
-FLAGS = -Wall -Werror -Wextra -g3 -std=c++11
+COMPILER = default
+FLAGS = -Wall -Werror -Wextra -g3
 ifneq ($(OS), Windows_NT)
-	DANGER = -fsanitize=address
-	LIBRARIES = -I include -lglfw -L "/Users/$(USER)/.brew/opt/glfw/lib/"
-else
-	LIBRARIES = -lglfw3 -lopengl32 -lgdi32
+# Is unsupported on windows
+	LINKER = -fsanitize=address
 endif
 
-# Messages to be displayed during compilation runtime
-SUCCESS_MSG = √ The programm $(NAME) has been compiled successfully!
+# External dependencies
+# MAKE_DIRS: not finished yet..
+LIBRARIES = -lglfw -L "/Users/$(USER)/.brew/opt/glfw/lib/"
+INCLUDES = /Users/$(USER)/.brew/opt/glfw/include ./include
+MAKE_DIRS = 
+
+# Messages to display
 COMPILE_MSG = ƒ Compiling $@ ...
+SUCCESS_MSG = √ The programm $(NAME) has been compiled successfully!
 CLEANING_MSG = ƒ Cleaning files ...
 CLEANOBJ_MSG = ø Objects has been cleared!
-CLEANLIB_MSG = ø Library has been cleared!
 
-#==--------------------------------------==#
-# *                                      * #
-#             SPECIAL METHODS              #
-# *                                      * #
-#==--------------------------------------==#
 
-# Quick control methods
-SILENT = > /dev/null 2>&1
-NOERR = || true
-STOP = && false
 
-# Syntax colors methods
-RED = \033[0;31m
-GRN = \033[0;32m
-YLW = \033[0;33m
-BLU = \033[0;34m
-NUL = \033[0m
-END = \033[0m\n
-BACK = \033[2K\r
+
 
 #==--------------------------------------==#
 # *                                      * #
@@ -61,22 +52,98 @@ BACK = \033[2K\r
 # *                                      * #
 #==--------------------------------------==#
 
-MLX_FOLDER = MLX42/
-MLX_FILE = libmlx42.a
-MLX_URL = git@github.com:codam-coding-college/MLX42.git
-MLX = $(addprefix $(MLX_FOLDER), $(MLX_FILE))
+# Listing every source files
+GLAD = src/glad.c
+ALL = main openGL output
+SUBFOLDER = src
+BINFOLDER = bin
 
-GRAPHICS_FOLDER = framework/
-GRAPHICS_FILES = framework.cpp draw.cpp
-GRAPHICS = $(addprefix $(GRAPHICS_FOLDER), $(GRAPHICS_FILES))
+# Adds the applicable extension and path to each files
+SRC = $(addprefix $(SUBFOLDER)/, $(addsuffix .$(LANG), $(ALL)))
+OBJ = $(GLAD:.c=.o) $(SRC:.$(LANG)=.o)
 
-CLASSES_FOLDER = classes/
-CLASSES_FILES = Entity.cpp Player.cpp Time.cpp
-CLASSES = $(addprefix $(CLASSES_FOLDER), $(CLASSES_FILES))
 
-ALL = main.cpp $(CLASSES) $(GRAPHICS)
-SRC = $(addprefix src/, $(ALL))
-OBJ = $(SRC:.cpp=.o)
+
+
+
+#==--------------------------------------==#
+# *                                      * #
+#               QUICK MACROS               #
+# *                                      * #
+#==--------------------------------------==#
+
+# Quick control
+SILENT = > /dev/null 2>&1
+NOERR = || true
+STOP = && false
+
+# Escape sequence getter
+ifeq ($(OS), Windows_NT)
+	ESC = 
+else
+	ESC = \033
+	NEWLINE = \n
+	BREAK = \r
+endif
+
+# Output control
+RED = $(ESC)[0;31m
+GRN = $(ESC)[0;32m
+YLW = $(ESC)[0;33m
+BLU = $(ESC)[0;34m
+NUL = $(ESC)[0m
+END = $(ESC)[0m$(NEWLINE)
+BACK = $(ESC)[2K$(BREAK)
+
+# Compiler counter
+CMP_TOTAL = $(shell awk -F' ' '{printf NF}' <<< "$(SRC) $(GLAD)")
+CMP_COUNT = 0
+
+# If COMPILER is set to default
+ifeq ($(COMPILER), default)
+	ifeq ($(LANG), c)
+		COMPILER = gcc
+	else ifeq ($(LANG), cpp)
+		COMPILER = c++
+	endif
+endif
+
+FLAGS += $(addprefix -I, $(INCLUDES)) $(addprefix -D, $(DEFINES))
+LINKER += $(LIBRARIES)
+
+
+
+#==--------------------------------------==#
+# *                                      * #
+#              RULES - COMMON              #
+# *                                      * #
+#==--------------------------------------==#
+
+# Main call upon 'make'
+all: $(NAME)
+
+# Clears and recompile the whole project
+re: fclean all
+
+# Execute all makefiles requierd
+dependencies:
+	@$(shell awk -F' ' '{make -sC }' <<< '$(MAKE_DIRS)')
+
+# Compile and run the executable and clears
+ifeq ($(NAME), test)
+tester: all
+else # Prevents override issue due to commonly choosen name
+test: all
+endif
+	@./$(NAME) $(TEST_ARGS) $(NOERR)
+	@make fclean
+
+# Protection
+.PHONY: all re clean fclean re
+
+
+
+
 
 #==--------------------------------------==#
 # *                                      * #
@@ -84,52 +151,41 @@ OBJ = $(SRC:.cpp=.o)
 # *                                      * #
 #==--------------------------------------==#
 
-ifneq ($(OS), Windows_NT) # Checks if its NOT Windows
-
-# Main call upon 'make'
-all: $(NAME)
+# Checks if its NOT Windows
+ifneq ($(OS), Windows_NT)
 
 # Compile the sources into object files
-.cpp.o:
-	@printf "$(BACK)$(YLW)$(COMPILE_MSG)$(NUL)"
-	@$(COMPILER) $(FLAGS) -o $@ -c $<
+.$(LANG).o:
+	@printf "$(BACK)$(YLW)[$(CMP_COUNT) / $(CMP_TOTAL)] $(COMPILE_MSG)$(NUL)"
+	@mkdir $(BINFOLDER) $(SILENT) $(NOERR)
+	@$(COMPILER) $(FLAGS) -o $(subst $(SUBFOLDER)/, $(BINFOLDER)/, $@) -c $<
+	@$(eval CMP_COUNT = $(shell expr $(CMP_COUNT) + 1))
 
-# Compile the dependencies using their Makefiles
-dependency:
-	@git clone $(MLX_URL) $(MLX_FOLDER) $(SILENT) $(NOERR)
-	@make -sC $(MLX_FOLDER)
+.c.o:
+	@printf "$(BACK)$(YLW)[$(CMP_COUNT) / $(CMP_TOTAL)] $(COMPILE_MSG)$(NUL)"
+	@mkdir $(BINFOLDER) $(SILENT) $(NOERR)
+	@gcc -I ./include/ -g3 -o $(subst $(SUBFOLDER)/, $(BINFOLDER)/, $@) -c $<
+	@$(eval CMP_COUNT = $(shell expr $(CMP_COUNT) + 1))
 
 # Compile the objects and dependencies into an executable
-$(NAME): dependency $(OBJ)
-	@printf "$(BACK)$(YLW)$(COMPILE_MSG)$(NUL)"
-	@$(COMPILER) $(LIBRARIES) $(DANGER) -o $(NAME) $(OBJ) $(MLX)
+$(NAME): $(GLAD) $(OBJ)
+	@printf "$(BACK)$(YLW)[Finalizing..] $(COMPILE_MSG)$(NUL)"
+	@$(COMPILER) $(LINKER) -o $(NAME) $(subst $(SUBFOLDER)/, $(BINFOLDER)/, $(OBJ))
 	@printf "$(BACK)$(GRN)$(SUCCESS_MSG)$(END)"
 
 # Clears all objects files
 clean:
 	@printf "$(BACK)$(YLW)$(CLEANING_MSG)$(NUL)"
-	@rm -f $(OBJ)
+	@rm -Rf $(BINFOLDER)
 	@printf "$(BACK)$(RED)$(CLEANOBJ_MSG)$(END)"
 
 # Clears all objects files, INCLUDING the executable
 fclean: clean
 	@rm -f $(NAME)
 
-# Cleans the External libs folder using their Makefiles
-libclean:
-	@make fclean -sC $(MLX_FOLDER)
-	@printf "$(BACK)$(RED)$(CLEANLIB_MSG)$(END)"
 
-# Clears and recompile the whole project
-re: fclean all
 
-# Does a quick compile to test run then clears everything
-test: all
-	@./$(NAME)
-	@make fclean
 
-# Protection
-.PHONY: all dependency clean fclean libclean re test
 
 #==--------------------------------------==#
 # *                                      * #
@@ -137,51 +193,32 @@ test: all
 # *                                      * #
 #==--------------------------------------==#
 
-else # In case its running on Windows
-
-# Main call upon 'make'
-all: $(NAME)
+# In case its running under Windows
+else
 
 # Compile the sources into object files
-.cpp.o:
-	@echo $(COMPILE_MSG)
+.$(LANG).o:
+	@echo $(BACK)$(YLW)$(COMPILE_MSG)$(NUL)
 	@$(COMPILER) $(FLAGS) -o $@ -c $<
 
-# Compile the dependencies using their Makefiles
-dependency:
-	@git clone $(MLX_URL) $(MLX_FOLDER) $(SILENT) $(NOERR)
-	@make -sC $(MLX_FOLDER)
-
 # Compile the objects and dependencies into an executable
-$(NAME): dependency $(OBJ)
-	@echo $(COMPILE_MSG)
-	@$(COMPILER) $(LIBRARIES) $(DANGER) -o $(NAME) $(OBJ) $(MLX) 
-	@echo $(SUCCESS_MSG)
+$(NAME): $(OBJ)
+	@echo $(BACK)$(YLW)$(COMPILE_MSG)$(NUL)
+	@$(COMPILER) $(LINKER) -o $(NAME) $(OBJ)
+	@echo $(BACK)$(GRN)$(SUCCESS_MSG)$(END)
 
 # Clears all objects files
 clean:
-	@echo $(CLEANING_MSG)
-	@del /F /Q $(subst /,\,$(OBJ))
-	@echo $(CLEANOBJ_MSG)
+	@echo $(BACK)$(YLW)$(CLEANING_MSG)$(NUL)
+	@del /f /q $(subst /,\,$(OBJ))
+	@echo $(BACK)$(RED)$(CLEANOBJ_MSG)$(END)
 
 # Clears all objects files, INCLUDING the executable
 fclean: clean
-	@del /F /Q $(addsuffix .exe, $(subst /,\,$(NAME)))
-
-# Cleans the External libs folder using their Makefiles
-libclean:
-	@make fclean -sC $(MLX_FOLDER)
-	@echo $(CLEANLIB_MSG)
-
-# Clears and recompile the whole project
-re: fclean all
-
-# Does a quick compile to test run then clears everything
-test: all
-	@./$(NAME)
-	@make fclean
-
-# Protection
-.PHONY: all dependency clean fclean libclean re test
+	@del /f /q $(addsuffix .exe, $(subst /,\,$(NAME)))
 
 endif
+
+
+# Personnal free to use template
+# BY Rosie ~

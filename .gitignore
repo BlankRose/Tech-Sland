@@ -1,7 +1,7 @@
-techsland
 .DS_Store
 .vscode/
 .header
-unused
 *.[oa]
+a.out
 *.exe
+t/

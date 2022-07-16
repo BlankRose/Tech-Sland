@@ -1,0 +1,49 @@
+/* ********************************************************************* */
+/*          .-.                                                          */
+/*    __   /   \   __                                                    */
+/*   (  `'.\   /.'`  )   TechSland - TechSland                           */
+/*    '-._.(;;;)._.-'                                                    */
+/*    .-'  ,`"`,  '-.                                                    */
+/*   (__.-'/   \'-.__)   BY: Rosie (https://github.com/BlankRose)        */
+/*       //\   /         Last Updated: Sat Jul 16 20:55:27 CEST 2022     */
+/*      ||  '-'                                                          */
+/* ********************************************************************* */
+
+#ifndef __TECHSLAND__
+# define __TECHSLAND__
+
+/* ************************************** */
+/*                                        */
+/*         INCLUDES  AND  DEFINES         */
+/*                                        */
+/* ************************************** */
+
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <common.h>
+#include <colors.h>
+
+typedef unsigned long long		t_ulong;
+typedef unsigned char			t_byte;
+
+/* ************************************** */
+/*                                        */
+/*         STRUCTURES  AND  ENUM          */
+/*                                        */
+/* ************************************** */
+
+enum logType {
+	DEBUG, INFO, WARNING, ERROR, CRITICAL
+};
+
+/* ************************************** */
+/*                                        */
+/*               FUNCTIONS                */
+/*                                        */
+/* ************************************** */
+
+GLFWwindow		*graphicsInit(void);
+void			logMsg(const logType type, const std::string message);
+void			logMsg(const logType type, const char *message);
+
+#endif /* __TECHSLAND__ */

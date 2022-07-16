@@ -1,19 +1,25 @@
 /* ********************************************************************* */
 /*          .-.                                                          */
 /*    __   /   \   __                                                    */
-/*   (  `'.\   /.'`  )   Tech-sland - classes.h                          */
+/*   (  `'.\   /.'`  )   TechSland - common.h                            */
 /*    '-._.(;;;)._.-'                                                    */
 /*    .-'  ,`"`,  '-.                                                    */
 /*   (__.-'/   \'-.__)   BY: Rosie (https://github.com/BlankRose)        */
-/*       //\   /         Last Updated: Sun Jun 12 16:06:54 CEST 2022     */
+/*       //\   /         Last Updated: Sat Jul 16 20:38:41 CEST 2022     */
 /*      ||  '-'                                                          */
 /* ********************************************************************* */
 
-#ifndef __CLASSES_H__
-# define __CLASSES_H__
+#ifndef __COMMON_H__
+# define __COMMON_H__
 
-#include "../header.h"
-#include "Player.hpp"
-#include "Time.hpp"
+// Includes of most
+// commonly used headers
+
+# include <algorithm>
+# include <iostream>
+# include <fstream>
+# include <string>
+# include <vector>
+# include <map>
 
 #endif
