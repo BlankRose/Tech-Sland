@@ -1,6 +1,7 @@
 .DS_Store
 .vscode/
 .header
+*.dSYM
 *.[oa]
 a.out
 *.exe

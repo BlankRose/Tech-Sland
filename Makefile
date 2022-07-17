@@ -5,7 +5,7 @@
 #    '-._.(;;;)._.-'                                                    #
 #    .-'  ,`"`,  '-.                                                    #
 #   (__.-'/   \'-.__)   BY: Rosie (https://github.com/BlankRose)        #
-#       //\   /         Last Updated: Sat Jul 16 20:29:23 CEST 2022     #
+#       //\   /         Last Updated: Sun Jul 17 20:38:24 CEST 2022     #
 #      ||  '-'                                                          #
 # ********************************************************************* #
 
@@ -32,7 +32,7 @@ endif
 
 # External dependencies
 # MAKE_DIRS: not finished yet..
-LIBRARIES = -lglfw -L "/Users/$(USER)/.brew/opt/glfw/lib/"
+LIBRARIES = -lglfw -L /Users/$(USER)/.brew/opt/glfw/lib
 INCLUDES = /Users/$(USER)/.brew/opt/glfw/include ./include
 MAKE_DIRS = 
 
@@ -176,7 +176,7 @@ $(NAME): $(GLAD) $(OBJ)
 # Clears all objects files
 clean:
 	@printf "$(BACK)$(YLW)$(CLEANING_MSG)$(NUL)"
-	@rm -Rf $(BINFOLDER)
+	@rm -Rf $(BINFOLDER) $(NAME).dSYM
 	@printf "$(BACK)$(RED)$(CLEANOBJ_MSG)$(END)"
 
 # Clears all objects files, INCLUDING the executable

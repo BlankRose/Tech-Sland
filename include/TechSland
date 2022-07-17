@@ -5,7 +5,7 @@
 /*    '-._.(;;;)._.-'                                                    */
 /*    .-'  ,`"`,  '-.                                                    */
 /*   (__.-'/   \'-.__)   BY: Rosie (https://github.com/BlankRose)        */
-/*       //\   /         Last Updated: Sat Jul 16 20:55:27 CEST 2022     */
+/*       //\   /         Last Updated: Sun Jul 17 20:15:29 CEST 2022     */
 /*      ||  '-'                                                          */
 /* ********************************************************************* */
 
@@ -43,6 +43,8 @@ enum logType {
 /* ************************************** */
 
 GLFWwindow		*graphicsInit(void);
+void			keyEventListener(GLFWwindow *window);
+void			windowResize(GLFWwindow *window, int width, int height);
 void			logMsg(const logType type, const std::string message);
 void			logMsg(const logType type, const char *message);
 
